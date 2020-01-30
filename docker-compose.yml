@@ -1,0 +1,28 @@
+version: '3.3'
+services:
+  node:
+    container_name: insight_node
+    image: 'node:latest'
+    working_dir: /home/node/app
+    command:
+      - /bin/sh
+      - '-c'
+      - 'npm install && npm start'
+    env_file:
+      - .env #for JWT TOKEN
+    ports:
+      - '3000:3000'
+    volumes:
+      - './src:/home/node/app'
+    networks:
+      - insight-network
+  mongo:
+    container_name: insight_mongo
+    image: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - insight-network
+networks:
+  insight-network:
+    driver: bridge
