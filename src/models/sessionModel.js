@@ -7,6 +7,7 @@ let userSchema = new Schema({
   nom_session: {
     type: String,
     required: true,
+    unique: true
   },
   promo: {
     type: String,
