@@ -5,7 +5,7 @@ about: Use Template for Pull Request
 labels: PR
 ---
 
-*version used:
-*operatong system:
-*your browser name and version:
-*link of your project:
+* Version used:
+* Operating system:
+* Browser name and version (if Front):
+
