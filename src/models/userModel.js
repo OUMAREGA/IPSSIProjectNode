@@ -27,6 +27,11 @@ const userSchema = new Schema({
 	    },
             message: "Email non conforme"
         }
+    },
+    roleId:{
+        type: String,
+        enum: ['intervenant','étudiant','admin'],
+        required: true
     }
 
 });
