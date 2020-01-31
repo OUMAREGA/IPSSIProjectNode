@@ -1,11 +1,16 @@
----
-name: Pull Request Only
-title: Pull Request Template
-about: Use Template for Pull Request
-labels: PR
----
+# Description
 
-*version used:
-*operatong system:
-*your browser name and version:
-*link of your project:
+Décrire vos changements apportés ainsi que le problème en question qui a été résolu.
+
+**Cocher les mentions utiles**
+
+- [ ] Correction d'un bug
+- [ ] Nouvelle fonctionnalité
+- [ ] Changements critiques
+
+
+Décrire les tests qui ont été effectués
+
+**Configuration de test**
+* Système d'exploitation :
+* Version utilisée :
