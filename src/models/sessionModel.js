@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-let userSchema = new Schema({
+let sessionSchema = new Schema({
   nom_session: {
     type: String,
     required: true,
@@ -23,6 +23,6 @@ let userSchema = new Schema({
   }
 });
 
-mongoose.model('Session', userSchema);
+mongoose.model('Session', sessionSchema);
 
 module.exports = mongoose.model('Session');
