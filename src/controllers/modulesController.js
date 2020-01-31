@@ -8,17 +8,19 @@ const Session = require('../models/SessionModel');
  * list all modules
  */
 exports.listModules = (req, res) => {
-    Module.find({}, (error, modules) => {
-        if (error) {
-            res.status(500);
-            console.log(error);
-            res.json({ message: "Erreur serveur." });
-        }
-        else {
+    try {
+
+        Module.find({}, (error, modules) => {
+
             res.status(200);
             res.json(modules);
-        }
-    })
+
+        })
+    } catch (error) {
+        res.status(500);
+        res.json({ message: "Erreur serveur" })
+    }
+
 }
 
 /** 
@@ -54,7 +56,6 @@ exports.createModule = (req, res) => {
                 })
             } catch (e) {
                 res.status(500);
-                console.log(e);
                 res.json({ message: "Erreur serveur" })
             }
         }
@@ -70,17 +71,23 @@ exports.createModule = (req, res) => {
  * one module
  */
 exports.getModule = (req, res) => {
-    Module.findById(req.params.moduleId, (error, module) => {
-        if (error) {
-            res.status(500);
-            console.log(error);
-            res.json({ message: "Erreur serveur." })
-        }
-        else {
-            res.status(200);
-            res.json(module);
-        }
-    })
+    try {
+        Module.findById(req.params.moduleId, (error, module) => {
+            if (error) {
+                res.status(400);
+                console.log(error);
+                res.json({ message: "Id introuvable" });
+            }
+            else {
+                res.status(200);
+                res.json(module);
+            }
+        })
+    } catch (error) {
+        res.status(500);
+        res.json({ message: "Erreur serveur" })
+    }
+
 }
 /**
  * UPDATE
@@ -196,17 +203,22 @@ exports.createModuleBySession = (req, res) => {
  * one module for a session
  */
 exports.getModuleBySession = (req, res) => {
-    Module.findOne({ _id: req.params.moduleId, sessionId: req.params.sessionId }, (error, module) => {
-        if (error) {
-            res.status(500);
-            console.log(error);
-            res.json({ message: "Erreur serveur." })
-        }
-        else {
-            res.status(200);
-            res.json(module);
-        }
-    })
+    try {
+        Module.findOne({ _id: req.params.moduleId, sessionId: req.params.sessionId }, (error, module) => {
+            if (error) {
+                res.status(400);
+                res.json({ message: "Erreur Id : Verifier vos Id" })
+            }
+            else {
+                res.status(200);
+                res.json(module);
+            }
+        })
+    } catch (error) {
+        res.status(500);
+        res.json({ message: "Erreur serveur." })
+    }
+
 }
 /**
  * UPDATE
