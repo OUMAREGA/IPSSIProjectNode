@@ -30,8 +30,8 @@ const userSchema = new Schema({
     },
     roleId:{
         type: String,
-        enum: ['intervenant','étudiant','admin'],
-        required: true
+        enum: { values: ['intervenant','étudiant','admin'], message: "Valeur invalide" }, //pour préciser aussi qu'une valeur non répertoriée a été saisie
+        required: "L'id du rôle est requis"
     }
 
 });
