@@ -5,7 +5,7 @@ about: Use Template for bug
 labels: ":bug: bug"
 ---
 
-*version used:
-*operatong system:
-*your browser name and version:
-*link of your project:
+* version used:
+* operating system:
+* your browser name and version:
+
