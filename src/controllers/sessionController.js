@@ -33,8 +33,12 @@ exports.list_all_sessions = (req, res) => {
         console.log(error);
         res.json({message: "Erreur serveur."})
       }
+      else if(!sessions){
+        res.status(404);
+        console.log(error);
+      }
       else{
-        res.status(200);
+	res.status(200);
         res.json(sessions);
       }
     })
@@ -44,8 +48,8 @@ exports.list_all_sessions = (req, res) => {
 exports.get_a_session = (req, res) => {
     try {
       Session.findById(req.params.session_id, (error, session) => {
-        if(error){
-          res.status(400);
+        if(session == null){
+          res.status(404);
           console.log(error);
           res.json({message: "Id introuvable"});
         }
@@ -65,8 +69,8 @@ exports.get_a_session = (req, res) => {
 exports.update_a_session = (req, res) => {
     try {
       Session.findByIdAndUpdate(req.params.session_id, req.body, {new:true}, (error, session) => {
-        if(error){
-          res.status(400);
+        if(session == null){
+          res.status(404);
           console.log(error);
           res.json({message: "Id introuvable"});
         }
@@ -86,8 +90,8 @@ exports.update_a_session = (req, res) => {
 exports.delete_a_session = (req, res) => {
     try {
       Session.findByIdAndRemove(req.params.session_id, (error) => {
-        if(error){
-          res.status(400);
+        if(session == null){
+          res.status(404);
           console.log(error);
           res.json({message: "Id introuvable"});
         }
