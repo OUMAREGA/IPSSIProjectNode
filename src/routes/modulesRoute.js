@@ -2,11 +2,11 @@ const modulesController = require('../controllers/modulesController');
 
 // Exporte la fonction anonyme
 module.exports = (app) => {
-  app.route('modules/')
+  app.route('/modules')
   .get(modulesController.listModules) // get all modules
   .post(modulesController.createModule) // create module
 
-  app.route('modules/:moduleId')
+  app.route('/modules/:moduleId')
   .get(modulesController.getModule)// get a module
   .put(modulesController.updateModule) // update module
   .delete(modulesController.deleteModule) // delete a module
