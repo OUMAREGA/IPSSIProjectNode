@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Module = require('../models/modulesModel');
 const User = require('../models/userModel');
-const Session = require('../models/SessionModel');
+const Session = require('../models/sessionModel');
 
 /**
  * GET
