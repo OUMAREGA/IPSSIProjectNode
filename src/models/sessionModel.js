@@ -6,16 +6,19 @@ const Schema = mongoose.Schema;
 let sessionSchema = new Schema({
   nom_session: {
     type: String,
-    required: true,
-    unique: true
+    required:"Le nom de session est requis"
   },
   promo: {
     type: String,
-    required: true
+    required: "Le nom de la promo est requis"
   },
-  annee: {
-    type: Number,
-    required: true
+  debut: {
+    type: Date,
+    required: "La date de début est requis"
+  },
+fin: {
+    type: Date,
+    required: "La date de fin est requis"
   },
   created_at: {
     type: Date,
