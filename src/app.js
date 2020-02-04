@@ -1,10 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-
+const https = require("https") //importation du module https
+const fs = require("fs") //importation de fs pour lire des fichiers
 const app = express();
 
-const hostname = '0.0.0.0';
+//const hostname = '0.0.0.0';
 const port = 3000;
 
 
@@ -14,11 +15,15 @@ app.use(bodyParser.urlencoded( {extended: true} ));
 app.use(bodyParser.json());
 
 
-const moduleRoute = require('./routes/modulesRoute');
-const sessionRoute = require('./routes/routesSession');
+const moduleRoute = require('./routes/routesModule');
+const userRoute = require("./routes/routesUser")
+//const sessionRoute = require('./routes/routesSession');
 
 moduleRoute(app);
-sessionRoute(app);
+userRoute(app)
+//sessionRoute(app);
 
-
-app.listen(port, hostname);
+https.createServer({ //configuration HTTPS
+    key: fs.readFileSync("https/server.key"), //récupération du fichier server.key (clé de cryptage --> clé PRIVÉE)
+    cert: fs.readFileSync("https/server.cert") //récupération du fichier cert (certificat)
+},app).listen(port)
