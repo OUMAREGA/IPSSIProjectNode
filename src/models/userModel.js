@@ -1,6 +1,14 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
+const options = { discriminatorKey: "roleKey" } //création d'un discriminant : à partir de quel attribut doit-on différencier les utilisateurs ?
+                    //il s'agit juste d'une clé de vérification et pas d'une colonne
+                    //la renommer en roleId peut avoir des effets indésirables vu que roleId est le nom d'un attribut de schéma (userSchema)
+
+
+/**
+ * Utilisateur classique
+ */
 const userSchema = new Schema({
 
     name:{
@@ -30,10 +38,35 @@ const userSchema = new Schema({
     },
     roleId:{
         type: String,
-        enum: ['intervenant','étudiant','admin'],
-        required: true
+        required: "Le rôle du nouvel utilisateur est requis",
+        //suppression de l'enum : la vérification sera effectuée dans la factory
     }
 
-});
+},options);
 
-module.exports = mongoose.model("User",userSchema)
+const UserGeneric = mongoose.model("User",userSchema);
+/**
+ * On applique le discriminator (c'est une sorte d'héritage)
+ * Ça nous évite de réécrire le même schéma avec seulement un attribut supplémentaire
+ * 
+ * La valeur du discriminant n'est qu'informative (il s'agit juste d'un autre type)
+ * Si l'utilisateur crée un nouvel objet User avec étudiant, cela ne fonctionnera pas
+ * 
+ */
+
+ /**
+  * Création d'un utilisateur étudiant (hérite des propriétés d'un utilisateur classique)
+  */
+const UserStudent = UserGeneric.discriminator("StudentExtension", new mongoose.Schema({ 
+    sessionId: {
+        type: String,
+        required: "Une session doit être attribuée à l'étudiant"
+    }
+ }));
+
+ module.exports.User = UserGeneric;
+ module.exports.Student = UserStudent;
+
+ /**
+  * Si on fournit un sessionID à un nouvel utilisateur, CELA N'AURA AUCUN EFFET
+  */

@@ -1,4 +1,4 @@
-const User = require('../models/userModel')
+const userFactory = require("../factory/UserFactory");
 const jwt = require('jsonwebtoken')
 const bcrypt = require("bcrypt") //methode de hash pour crypter le mot de passe
 const robustesse = 10 //plus la valeur élevée plus la méthode de hachage sera lourde pour le mot de passe
@@ -7,9 +7,9 @@ exports.create_user = (req, res) => {
 
 	bcrypt.hash(req.body.password, robustesse, (err,hash) => {
 		req.body.password = hash
-		let new_user = new User(req.body)
+		let make_user = userFactory(req.body.roleId,req,res) //le type d'utilisateur est généré depuis la factory
 		try{
-			new_user.validate().then(() => new_user.save((error,user) => {
+        	make_user.then((newUser) => newUser.validate().then(() => newUser.save((error,user) => {
 				if(error){
                     Object.values(error.errors).forEach((e) => { //on ne récupère que les attributs erronées avec leur message d'erreur
                          errors[e.path] = e.message
@@ -19,12 +19,15 @@ exports.create_user = (req, res) => {
 				}else{
 					res.status(201).json(user)
 				}
-			})).catch((error) => { //passage dans le catch si la validation de l'email échoue
-                Object.values(error.errors).forEach((e) => { //manipulation identique sauf qu'on rajoute ici le message d'échec de validation
+			})).catch((error) => { //passage dans le catch si la validation échoue
+                Object.values(error.errors).forEach((e) => { //on rajoute ici le message d'échec de validation pour chaque champ (s'il y en a plusieurs)
                      errors[e.path] = e.message
                 })
                 res.status(400)
                 res.json(Object.assign({},errors))
+            })).catch((error) => { //passage dans le catch si la promesse de la FACTORY échoue (type d'utilisateur non existant)
+                console.log(error)
+                res.status(400).json(error)
             })
 		}catch(e){
 			res.status(500)
