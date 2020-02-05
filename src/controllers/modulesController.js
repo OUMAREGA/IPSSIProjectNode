@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Module = require('../models/modulesModel');
 const User = require('../models/userModel');
-const Session = require('../models/SessionModel');
+const Session = require('../models/sessionModel');
 
 /**
  * GET
@@ -31,13 +31,13 @@ exports.listModules = (req, res) => {
 */
 exports.createModule = (req, res) => {
 
-    User.findById(req.body.teacherID, (error, user)).then(() => {
+    User.findById(req.body.teacherID).then((error,user) => {
         if (user.role_id === 'intervenant') {
 
             newModule = new Module(req.body);
 
             if (req.body.sessionId) {
-                Session.findById(req.body.sessionId, (error, session)).then(() => {
+                Session.findById(req.body.sessionId).then((error,user) => {
                     newModule.sessionId = req.body.sessionId
                 }).catch(() => res.json("La session n'existe pas"))
             }
@@ -96,13 +96,13 @@ exports.getModule = (req, res) => {
  * test if sesion exists
  */
 exports.updateModule = (req, res) => {
-    User.findById(req.body.teacherID, (error, user)).then(() => {
+    User.findById(req.body.teacherID).then((error,user) => {
         if (user.role_id === 'intervenant') {
 
             newModule = new Module(req.body);
 
             if (req.body.sessionId) {
-                Session.findById(req.body.sessionId, (error, session)).then(() => {
+                Session.findById(req.body.sessionId).then((error,user) => {
                     newModule.sessionId = req.body.sessionId
                 }).catch(() => res.json("La session n'existe pas"))
             }
@@ -177,25 +177,35 @@ exports.listModulesBySession = (req, res) => {
 * create a module by session
 */
 exports.createModuleBySession = (req, res) => {
-    newModule = new Module(req.body);
-    newModule.sessionId = req.params.sessionId;
-    try {
-        newModule.save((error, module) => {
-            if (error) {
-                res.status(400);
-                console.log(error);
-                res.json({ message: "Il manque des infos" });
+
+    User.findById(req.body.teacherID).then((error,user) => {
+        if (user.role_id === 'intervenant') {
+
+            newModule = new Module(req.body);
+
+            newModule.sessionId = req.params.sessionId
+            
+            try {
+                newModule.save((error, module) => {
+                    if (error) {
+                        res.status(400);
+                        console.log(error);
+                        res.json({ message: "Erreur post" });
+                    }
+                    else {
+                        res.status(201);
+                        res.json(module)
+                    }
+                })
+            } catch (e) {
+                res.status(500);
+                res.json({ message: "Erreur serveur" })
             }
-            else {
-                res.status(201);
-                res.json(module)
-            }
-        })
-    } catch (e) {
-        res.status(500);
-        console.log(e);
-        res.json({ message: "Erreur serveur" })
-    }
+        }
+        else {
+            res.json("Veuilez selectionner un formateur");
+        }
+    }).catch(() => res.json("L'utilisateur n'existe pas"))
 }
 
 /**
@@ -227,13 +237,13 @@ exports.getModuleBySession = (req, res) => {
  * test if sesion exists
  */
 exports.updateModuleBySession = (req, res) => {
-    User.findById(req.body.teacherID, (error, user)).then(() => {
+    User.findById(req.body.teacherID).then((error,user) => {
         if (user.role_id === 'intervenant') {
 
             newModule = new Module(req.body);
 
             if (req.body.sessionId) {
-                Session.findById(req.body.sessionId, (error, session)).then(() => {
+                Session.findById(req.body.sessionId).then((error,user) => {
                     newModule.sessionId = req.body.sessionId
                 }).catch(() => res.json("La session n'existe pas"))
             }
