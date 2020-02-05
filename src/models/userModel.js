@@ -1,10 +1,8 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
-const options = { discriminatorKey: "roleKey" } //création d'un discriminant : à partir de quel attribut doit-on différencier les utilisateurs ?
-                    //il s'agit juste d'une clé de vérification et pas d'une colonne
+const options = { discriminatorKey: "roleKey" } //création d'un discriminant : identification de différenciation entre schémas
                     //la renommer en roleId peut avoir des effets indésirables vu que roleId est le nom d'un attribut de schéma (userSchema)
-
 
 /**
  * Utilisateur classique
