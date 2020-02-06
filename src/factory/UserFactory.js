@@ -11,22 +11,34 @@ const createUser = (type, data) => {
     let new_user = null;
 
     switch (type) {
-        case "admin":
-            new_user = userModel.User(data.body)
-            break;
-        case "intervenant":
-            new_user = userModel.User(data.body)
+        case "admin" || "intervenant":
+            new_user = userModel.Generic(data.body)
             break;
 
         case "étudiant": //variable différente pour l'étudiant
             new_user = userModel.Student(data.body)
             break;
-
-        default:
-            return Promise.reject({ roleId: "Type d'utilisateur non existant" });
     }
 
     return new_user;
 };
 
-module.exports = createUser;
+//pour juste récupérer une instance de schéma
+/**
+ * 
+ * @param {string} type 
+ */
+const instanceUser = (type) => {
+    
+    switch(type) {
+
+        case "étudiant":
+            return userModel.Student;
+        default:
+            return userModel.Generic;
+        
+    }
+};
+
+module.exports.create = createUser;
+module.exports.instance = instanceUser;

@@ -13,11 +13,11 @@ const userSchema = new Schema({
 
     name: {
         type: String,
-        required: "Le nom de l'utilisateur est requis"
+        required: "Le nom du nouvel l'utilisateur est requis"
     },
     firstname: {
         type: String,
-        required: "Le prénom de l'utilisateur est requis"
+        required: "Le prénom du nouvel l'utilisateur est requis"
     },
     password: { //devra être hashé en controller
         type: String,
@@ -25,7 +25,7 @@ const userSchema = new Schema({
     },
     email: {
         type: String,
-        required: "L'adresse mail de l'utilisateur est requise",
+        required: "L'adresse mail du nouvel l'utilisateur est requise",
         validate: { //validation du mail (invoquer validate())
             validator: (value) => {
                 if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value))
@@ -45,6 +45,9 @@ const userSchema = new Schema({
 }, options);
 
 const UserGeneric = mongoose.model("User", userSchema);
+
+
+
 /**
  * On applique le discriminator (c'est une sorte d'héritage)
  * Ça nous évite de réécrire le même schéma avec seulement un attribut supplémentaire
@@ -74,8 +77,13 @@ const UserStudent = UserGeneric.discriminator("StudentExtension", new mongoose.S
     }
 }));
 
-module.exports.User = UserGeneric;
+
+
+module.exports.Generic = UserGeneric;
 module.exports.Student = UserStudent;
+
+
+
 
 /**
  * Si on fournit un sessionID à un nouvel utilisateur, CELA N'AURA AUCUN EFFET
