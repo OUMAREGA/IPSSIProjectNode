@@ -1,29 +1,32 @@
-const userSchema = require("../models/userSchema");
+const userModel = require("../models/userModel");
 /**
  * Étant donné que le discriminatorKey n'est qu'informatif
  * On va passer par de la logique afin de retourner le bon
  * type d'utilisateur qu'on va créer (pattern factory)
  * @param {String} type le type d'utilisateur qu'on souhaite
  * @param {Object} data les paramètres envoyés par l'utilisateur (body)
- * @param {Object} res Objet de la réponse (contient déjà du contenu si passé par middleware)
  */
-const createUser = (type, data, res) => {
+const createUser = (type, data) => {
+
+    let new_user = null;
 
     switch (type) {
         case "admin":
-            return Promise.resolve(userSchema.User(data.body));
-
+            new_user = userModel.User(data.body)
+            break;
         case "intervenant":
-            return Promise.resolve(userSchema.User(data.body));
+            new_user = userModel.User(data.body)
+            break;
 
-        case "étudiant": //étape supplémentaire pour l'étudiant
-            data.body.sessionId = res.locals.sessionId; //sessionId est la valeur retournée par notre middleware
-            return Promise.resolve(userSchema.User(data.body));
+        case "étudiant": //variable différente pour l'étudiant
+            new_user = userModel.Student(data.body)
+            break;
 
         default:
-            return Promise.reject({error: "Type d'utilisateur non existant"});
+            return Promise.reject({ roleId: "Type d'utilisateur non existant" });
     }
 
+    return new_user;
 };
 
 module.exports = createUser;
