@@ -4,6 +4,7 @@
   "description": "## Contexte",
   "main": "app.js",
   "scripts": {
+    "build": "cp /home/node/server.* /home/node/app/https/",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app.js"
   },
@@ -27,5 +28,6 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.8.11",
     "mongoose-unique-validator": "^2.0.3"
+    "start": "^5.1.0"
   }
 }
