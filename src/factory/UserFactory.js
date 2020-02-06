@@ -11,7 +11,11 @@ const createUser = (type, data) => {
     let new_user = null;
 
     switch (type) {
-        case "admin" || "intervenant":
+        case "admin" :
+            new_user = userModel.Generic(data.body)
+            break;
+
+        case "intervenant":
             new_user = userModel.Generic(data.body)
             break;
 

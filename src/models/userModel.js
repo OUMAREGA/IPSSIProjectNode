@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
-
+const uniqueValidator = require('mongoose-unique-validator');
 const Session = require("../models/sessionModel")
 
 const options = { discriminatorKey: "roleKey" } //création d'un discriminant : identification de différenciation entre schémas
@@ -34,7 +34,8 @@ const userSchema = new Schema({
                     return Promise.resolve(false)
             },
             message: "Email non conforme"
-        }
+        },
+        unique: "Cette adresse mail a déjà été utilisée"
     },
     roleId: {
         type: String,
@@ -43,6 +44,8 @@ const userSchema = new Schema({
     }
 
 }, options);
+
+userSchema.plugin(uniqueValidator)
 
 const UserGeneric = mongoose.model("User", userSchema);
 
