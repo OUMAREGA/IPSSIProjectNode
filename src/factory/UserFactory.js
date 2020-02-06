@@ -12,11 +12,11 @@ const createUser = (type, data) => {
 
     switch (type) {
         case "admin" :
-            new_user = userModel.Generic(data.body)
+            new_user = userModel(data.body)
             break;
 
         case "intervenant":
-            new_user = userModel.Generic(data.body)
+            new_user = userModel(data.body)
             break;
 
         case "étudiant": //variable différente pour l'étudiant
@@ -39,7 +39,7 @@ const instanceUser = (type) => {
         case "étudiant":
             return userModel.Student;
         default:
-            return userModel.Generic;
+            return userModel;
         
     }
 };
