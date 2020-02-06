@@ -82,7 +82,7 @@ const UserStudent = UserGeneric.discriminator("StudentExtension", new mongoose.S
 
 
 
-module.exports.Generic = UserGeneric;
+module.exports = UserGeneric;
 module.exports.Student = UserStudent;
 
 
