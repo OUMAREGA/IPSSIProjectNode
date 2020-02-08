@@ -1,5 +1,6 @@
 const usersController = require('../controllers/UsersController');
 const middleware = require("../middleware/jwtMiddleware")
+
 module.exports = (app) => {
   app.route('/users')
   .post([middleware.verify_token,middleware.is_admin],usersController.create_user)
