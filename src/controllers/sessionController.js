@@ -40,7 +40,7 @@ exports.list_all_sessions = (req, res) => {
         res.status(400);
         res.json(Object.assign({},errors));
       }
-      else if(!sessions){
+      else if(sessions.length == 0){
         res.status(404);
         console.log(error);
       }
@@ -58,7 +58,7 @@ exports.get_a_session = (req, res) => {
         if(session == null){
           res.status(404);
           console.log(error);
-          res.json({message: "Id introuvable"});
+          res.json({message: "session introuvable"});
         }
         else{
           res.status(200);
@@ -79,7 +79,7 @@ exports.update_a_session = (req, res) => {
         if(session == null){
           res.status(404);
           console.log(error);
-          res.json({message: "Id introuvable"});
+          res.json({message: "session introuvable"});
         }
         else{
           res.status(200);
