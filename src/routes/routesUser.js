@@ -11,7 +11,7 @@ module.exports = (app) => {
     .get([middleware.verify_token,middleware.is_admin],usersController.fetch_a_user)
     .put([middleware.verify_token,middleware.is_admin],usersController.update_user) //pour mettre à jour une session ou son mot de passe, adresse mail, etc.
 
-  app.delete([middleware.verify_token,middleware.is_admin],"/users/:userId",usersController.delete_user)
+  app.delete("/users/:userId",[middleware.verify_token,middleware.is_admin],usersController.delete_user)
 
   app.route('/login')
   .post(usersController.login_user);
