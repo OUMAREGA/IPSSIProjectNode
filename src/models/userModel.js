@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
-const uniqueValidator = require('mongoose-unique-validator');
+const uniqueValidator = require('mongoose-beautiful-unique-validation');
 const Session = require("../models/sessionModel")
 
 const options = { discriminatorKey: "roleKey" } //création d'un discriminant : identification de différenciation entre schémas
@@ -47,6 +47,7 @@ const userSchema = new Schema({
 
 userSchema.plugin(uniqueValidator)
 
+
 const UserGeneric = mongoose.model("User", userSchema);
 
 
@@ -78,13 +79,12 @@ const UserStudent = UserGeneric.discriminator("StudentExtension", new mongoose.S
 
         }
     }
-}));
+}))
 
 
 
 module.exports = UserGeneric;
 module.exports.Student = UserStudent;
-
 
 
 
