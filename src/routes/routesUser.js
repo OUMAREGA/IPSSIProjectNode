@@ -1,5 +1,4 @@
 const usersController = require('../controllers/UsersController');
-const secureMiddleware = require("../middleware/secureMiddleware");
 
 module.exports = (app) => {
   app.route('/users')
