@@ -17,13 +17,13 @@ const createUser = (type, data) => {
     switch (type) {
 
         case "étudiant": //variable différente pour l'étudiant : il est obligatoire de donner une session au nouvel étudiant
-            new_user = userModel.Student(data.body)
+            new_user = userModel.Student(data)
             break;
         case "intervenant":
-            new_user = userModel(data.body)
+            new_user = userModel(data)
             break;
         case "admin":
-	    new_user = userModel(data.body)
+	    new_user = userModel(data)
 	    break;
        
     }

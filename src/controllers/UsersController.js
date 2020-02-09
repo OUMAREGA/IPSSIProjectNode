@@ -9,7 +9,7 @@ exports.create_user = (req, res) => {
 
     bcrypt.hash(req.body.password, robustesse, (err, hash) => {
         req.body.password = hash
-        const make_user = userFactory.create(req.body.roleId, req) //l'utilisateur est généré depuis la factory
+        const make_user = userFactory.create(req.body.roleId, req.body) //l'utilisateur est généré depuis la factory
         if (!make_user) //si la factory a renvoyé null
             res.status(400).json({ erreur: "Type d'utilisateur invalide" })
         else {
