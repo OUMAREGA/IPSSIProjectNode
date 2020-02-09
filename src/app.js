@@ -17,11 +17,13 @@ app.use(bodyParser.json());
 
 const moduleRoute = require('./routes/routesModule');
 const userRoute = require("./routes/routesUser")
-//const sessionRoute = require('./routes/routesSession');
+const notesRoute = require("./routes/routesNote")
+const sessionRoute = require('./routes/routesSession');
 
 moduleRoute(app);
-userRoute(app)
-//sessionRoute(app);
+userRoute(app);
+sessionRoute(app);
+notesRoute(app);
 
 https.createServer({ //configuration HTTPS
     key: fs.readFileSync("https/server.key"), //récupération du fichier server.key (clé de cryptage --> clé PRIVÉE)
