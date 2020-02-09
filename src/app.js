@@ -19,11 +19,13 @@ const moduleRoute = require('./routes/routesModule');
 const userRoute = require("./routes/routesUser")
 const notesRoute = require("./routes/routesNote")
 const sessionRoute = require('./routes/routesSession');
+const userByTokenRoute = require('./routes/userByTokenRoute');
 
 moduleRoute(app);
 userRoute(app);
 sessionRoute(app);
 notesRoute(app);
+userByTokenRoute(app);
 
 https.createServer({ //configuration HTTPS
     key: fs.readFileSync("https/server.key"), //récupération du fichier server.key (clé de cryptage --> clé PRIVÉE)
