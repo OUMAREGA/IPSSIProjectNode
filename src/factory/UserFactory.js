@@ -19,9 +19,13 @@ const createUser = (type, data) => {
         case "étudiant": //variable différente pour l'étudiant : il est obligatoire de donner une session au nouvel étudiant
             new_user = userModel.Student(data.body)
             break;
-        
-        default:
+        case "intervenant":
             new_user = userModel(data.body)
+            break;
+        case "admin":
+	    new_user = userModel(data.body)
+	    break;
+       
     }
 
     return new_user;
