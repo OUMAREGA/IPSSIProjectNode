@@ -67,7 +67,6 @@ const UserGeneric = mongoose.model("User", userSchema);
 const UserStudent = UserGeneric.discriminator("StudentExtension", new mongoose.Schema({
     sessionId: {
         type: String,
-        required: "Une session doit être attribuée à l'étudiant",
         validate: {
             validator: (value) => {
                 return Session.findById(value)
