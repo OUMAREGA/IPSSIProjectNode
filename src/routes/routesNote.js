@@ -1,5 +1,5 @@
 const NotesController = require("../controllers/NotesController")
-const middleware = require("../middleware/jwtMiddleware)
+const middleware = require("../middleware/jwtMiddleware")
 module.exports = (app) => {
 
     app.route("/notes") 

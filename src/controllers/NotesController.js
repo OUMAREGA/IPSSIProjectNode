@@ -1,4 +1,4 @@
-const Note = require('../models/notesModule')
+const Note = require('../models/notesModel')
 const Module = require("../models/modulesModel")
 
 // exporter les methodes de NotesController.js
