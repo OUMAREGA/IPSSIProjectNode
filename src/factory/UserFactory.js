@@ -21,7 +21,7 @@ const createUser = (type, data) => {
             break;
         
         default:
-            new_user = userModel
+            new_user = userModel(data.body)
     }
 
     return new_user;
