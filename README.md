@@ -24,7 +24,7 @@ Les `intervenants` auront la possibilité de consulter les moyennes de leurs mod
 Un environnement conteneurisé Docker a été inclus pour accélérer la mise en place du projet.
 Pour lancer le projet :
 
-`docker-compose up`
+`docker-compose up --build`
 
 Les dépendances seront automatiquement installées au lancement des conteneurs depuis docker-compose
 
@@ -33,4 +33,5 @@ Les dépendances seront automatiquement installées au lancement des conteneurs 
 - Docker
 - NodeJS
 - Express
+- OpenSSL (HTTPS)
 - JsonWebToken

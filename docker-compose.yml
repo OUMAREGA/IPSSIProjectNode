@@ -2,12 +2,12 @@ version: '3.3'
 services:
   node:
     container_name: insight_node
-    image: 'node:latest'
+    build: .
     working_dir: /home/node/app
     command:
-      - /bin/sh
-      - '-c'
-      - 'npm install && npm start'
+            - /bin/bash
+            - "-c"
+            - "npm run-script build && npm install && npm start" #lancement de la commande start du package.json
     env_file:
       - .env #for JWT TOKEN
     ports:
