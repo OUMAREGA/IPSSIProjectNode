@@ -31,13 +31,14 @@ exports.listModules = (req, res) => {
 */
 exports.createModule = (req, res) => {
 
-    User.findById(req.body.teacherID).then((error,user) => {
-        if (user.role_id === 'intervenant') {
+    User.findById(req.body.teacherId).then(user => {
+        
+        if (user.roleId === "intervenant") {
 
             newModule = new Module(req.body);
 
             if (req.body.sessionId) {
-                Session.findById(req.body.sessionId).then((error,user) => {
+                Session.findById(req.body.sessionId).then(user => {
                     newModule.sessionId = req.body.sessionId
                 }).catch(() => res.json("La session n'existe pas"))
             }
@@ -46,8 +47,7 @@ exports.createModule = (req, res) => {
                 newModule.save((error, module) => {
                     if (error) {
                         res.status(400);
-                        console.log(error);
-                        res.json({ message: "Il manque des infos" });
+                        res.json({ message: error });
                     }
                     else {
                         res.status(201);
@@ -96,13 +96,13 @@ exports.getModule = (req, res) => {
  * test if sesion exists
  */
 exports.updateModule = (req, res) => {
-    User.findById(req.body.teacherID).then((error,user) => {
-        if (user.role_id === 'intervenant') {
+    User.findById(req.body.teacherId).then(user => {
+        if (user.roleId === 'intervenant') {
 
             newModule = new Module(req.body);
 
             if (req.body.sessionId) {
-                Session.findById(req.body.sessionId).then((error,user) => {
+                Session.findById(req.body.sessionId).then(user => {
                     newModule.sessionId = req.body.sessionId
                 }).catch(() => res.json("La session n'existe pas"))
             }
@@ -137,7 +137,7 @@ exports.updateModule = (req, res) => {
  */
 exports.deleteModule = (req, res) => {
     try {
-        Comment.findByIdAndDelete(req.params.moduleId, (error) => {
+        Module.findByIdAndDelete(req.params.moduleId, (error) => {
             if (error) {
                 res.status(400);
                 console.log(error);
@@ -178,8 +178,8 @@ exports.listModulesBySession = (req, res) => {
 */
 exports.createModuleBySession = (req, res) => {
 
-    User.findById(req.body.teacherID).then((error,user) => {
-        if (user.role_id === 'intervenant') {
+    User.findById(req.body.teacherId).then(user => {
+        if (user.roleId === 'intervenant') {
 
             newModule = new Module(req.body);
 
@@ -237,13 +237,13 @@ exports.getModuleBySession = (req, res) => {
  * test if sesion exists
  */
 exports.updateModuleBySession = (req, res) => {
-    User.findById(req.body.teacherID).then((error,user) => {
-        if (user.role_id === 'intervenant') {
+    User.findById(req.body.teacherId).then(user => {
+        if (user.roleId === 'intervenant') {
 
             newModule = new Module(req.body);
 
             if (req.body.sessionId) {
-                Session.findById(req.body.sessionId).then((error,user) => {
+                Session.findById(req.body.sessionId).then(user => {
                     newModule.sessionId = req.body.sessionId
                 }).catch(() => res.json("La session n'existe pas"))
             }
