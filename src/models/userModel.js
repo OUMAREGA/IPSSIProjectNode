@@ -76,7 +76,8 @@ const UserStudent = UserGeneric.discriminator("StudentExtension", new mongoose.S
             message: "Session invalide"
 
 
-        }
+        },
+        default: null
     }
 }))
 

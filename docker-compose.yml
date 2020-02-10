@@ -5,11 +5,9 @@ services:
     build: .
     working_dir: /home/node/app
     command:
-            - /bin/bash
-            - "-c"
-            - "npm run-script build && npm install && npm start" #lancement de la commande start du package.json
-    env_file:
-      - .env #for JWT TOKEN
+        - "/bin/bash"
+        - "-c"
+        - "./entrypoint.sh" 
     ports:
       - '3000:3000'
     volumes:
