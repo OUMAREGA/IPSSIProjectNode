@@ -28,6 +28,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.8.11",
     "mongoose-beautiful-unique-validation": "^7.1.1",
-    "start": "^5.1.0"
+    "start": "^5.1.0",
+    "swagger-jsdoc": "^3.5.0",
+    "swagger-ui-express": "^4.1.3"
   }
 }

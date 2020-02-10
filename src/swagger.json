@@ -1,0 +1,238 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "version": "1.0.0",
+        "title": "Insight API",
+        "description": "Documentation officielle sur l'utilisation de l'API Insight, dédiée à la notation d'intervenants par les étudiants"
+    },
+    "servers": [{
+        "url": "https://localhost:3000"
+
+    }],
+    "tags": [{
+        "name": "Users",
+        "description": "Utilisateurs de l'API"
+    }],
+    "schemes": [
+        "https"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/users": {
+            "get": {
+                "security": {
+                    "bearerAuth": []
+                },
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Retourne la liste de tous les utilisateurs",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "401": {
+                        "description": "L'utilisateur n'est pas authentifié"
+                    },
+                    "403": {
+                        "description": "L'utilisateur n'a pas les privilèges suffisants"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "parameters": [{
+                    "in": "body",
+                    "name": "body",
+                    "required": true,
+                    "description": "Informations du nouvel utilisateur à transmettre",
+                    "schema": {
+                        "$ref": "#/definitions/User"
+                    }
+                }],
+                "summary": "Crée un nouvel utilisateur",
+                "responses": {
+                    "201": {
+                        "description": "Utilisateur créé",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "400": {
+                        "description": "L'utilisateur a mal renseigné les champs"
+                    },
+                    "401": {
+                        "description": "L'utilisateur n'est pas authentifié"
+                    },
+                    "403": {
+                        "description": "L'utilisateur n'a pas les privilèges suffisants"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "apiKey",
+                "name": "Authorization",
+                "scheme": "bearer",
+                "bearerFormat": "JWT",
+                "in": "header",
+                "scopes": {
+                    "admin": "Accès administrateur requis"
+                }
+            }
+        },
+        "security": {
+            "bearerAuth": []
+        }
+    },
+    "definitions": {
+        "User": {
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "firstname": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string",
+                    "format": "email"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "roleId": {
+                    "type": "string",
+                    "enum": ["admin", "intervenant"]
+                }
+
+            },
+            "required": [
+                "name",
+                "firstname",
+                "email",
+                "password",
+                "roleId"
+            ]
+        },
+        "Student": {
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "firstname": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string",
+                    "format": "email"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "roleId": {
+                    "type": "string",
+                    "enum": ["étudiant"]
+                },
+                "sessionId": {
+                    "type": "String",
+                    "$ref": "#/definitions/Session"
+                }
+
+            },
+            "required": [
+                "name",
+                "firstname",
+                "email",
+                "password",
+                "roleId"
+            ]
+        },
+        "Session": {
+            "properties": {
+                "nom_session": {
+                    "type": "string"
+                },
+                "promo": {
+                    "type": "string"
+                },
+                "debut": {
+                    "type": "Date"
+                },
+                "fin": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "created_at": {
+                    "type": "string",
+                    "format": "date"
+                }
+            },
+            "required": [
+                "nom_session",
+                "promo",
+                "debut",
+                "fin"
+            ]
+        },
+        "Module": {
+            "properties": {
+                "nameModule": {
+                    "type": "string"
+                },
+                "teacherId": {
+                    "type": "String",
+                    "$ref": "#/definitions/User"
+                },
+                "sessionId": {
+                    "type": "String",
+                    "$ref": "#/definitions/Session"
+                },
+                "begin": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "end": {
+                    "type": "string",
+                    "format": "date"
+                }
+            },
+            "required": [
+                "nameModule",
+                "teacherId",
+                "sessionId",
+                "begin",
+                "end"
+            ]
+        }
+
+    },
+    "explorer": true,
+    "swaggerOptions": {
+        "authAction": {
+            "JWT": {
+                "name": "JWT",
+                "schema": {
+                    "type": "apiKey",
+                    "in": "header",
+                    "name": "Authorization",
+                    "description": ""
+                },
+                "value": "Bearer <my own JWT token>"
+            }
+        }
+    }
+}
