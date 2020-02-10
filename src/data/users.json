@@ -1,0 +1,49 @@
+{
+    "admins": [{
+            "name": "name1",
+            "firstname": "firstname1",
+            "roleId": "admin",
+            "password": "user1",
+            "email": "user1@email.fr"
+        },
+        {
+            "name": "name2",
+            "firstname": "firstname2",
+            "roleId": "admin",
+            "password": "user2",
+            "email": "user2@email.fr"
+        }
+    ],
+
+    "intervenants": [{
+            "name": "name3",
+            "firstname": "firstname3",
+            "roleId": "intervenant",
+            "password": "user3",
+            "email": "user3@email.fr"
+        },
+        {
+            "name": "name4",
+            "firstname": "firstname4",
+            "roleId": "intervenant",
+            "password": "user4",
+            "email": "user4@email.fr"
+        }
+    ],
+
+    "etudiants": [{
+            "name": "name5",
+            "firstname": "firstname5",
+            "roleId": "étudiant",
+            "password": "user5",
+            "email": "user5@email.fr"
+        },
+        {
+            "name": "name6",
+            "firstname": "firstname6",
+            "roleId": "étudiant",
+            "password": "user6",
+            "email": "user6@email.fr"
+        }
+    ]
+}

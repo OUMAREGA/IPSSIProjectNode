@@ -1,5 +1,5 @@
 FROM node:latest
-MAINTAINER insight_team
+LABEL author=insight_team
 
 WORKDIR /home/node
 RUN apt-get update -y

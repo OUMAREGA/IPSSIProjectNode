@@ -6,6 +6,7 @@ const fs = require("fs") //importation de fs pour lire des fichiers
 const app = express();
 const swaggerUi = require("swagger-ui-express")
 const swaggerDoc = require("./swagger.json")
+require("dotenv").config({ path: ".env" }) //importation du fichier .env (sera utilisable par les controllers)
     //const hostname = '0.0.0.0';
 const port = 3000;
 mongoose.connect('mongodb://mongo/insight_BDD');
