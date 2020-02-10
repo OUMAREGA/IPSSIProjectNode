@@ -28,6 +28,8 @@ Pour lancer le projet :
 
 Les dépendances seront automatiquement installées au lancement des conteneurs depuis docker-compose
 
+Pour importer des utilisateurs : `docker exec insight_node bash -c "node import/import.js"`
+
 ## Technologies
 
 - Docker

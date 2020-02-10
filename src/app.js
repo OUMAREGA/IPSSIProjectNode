@@ -4,16 +4,17 @@ const bodyParser = require('body-parser');
 const https = require("https") //importation du module https
 const fs = require("fs") //importation de fs pour lire des fichiers
 const app = express();
+const swaggerUi = require("swagger-ui-express")
+const swaggerDoc = require("./swagger.json")
 require("dotenv").config({ path: ".env" }) //importation du fichier .env (sera utilisable par les controllers)
     //const hostname = '0.0.0.0';
 const port = 3000;
-
-
 mongoose.connect('mongodb://mongo/insight_BDD');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.use("/api-doc", swaggerUi.serve, swaggerUi.setup(swaggerDoc))
 
 const moduleRoute = require('./routes/routesModule');
 const userRoute = require("./routes/routesUser")
