@@ -1,0 +1,17 @@
+[
+    {
+        "name": "name1",
+        "firstname": "firstname1",
+        "roleId": "admin",
+        "password": "user1",
+        "email": "user3@email.fr"
+    },
+    {
+        "name": "name1",
+        "firstname": "firstname1",
+        "roleId": "étudiant",
+        "password": "user1",
+        "email": "user4@email.fr",
+        "sessionId": null
+    }
+]
