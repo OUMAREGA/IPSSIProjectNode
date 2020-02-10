@@ -1,5 +1,7 @@
 .DS_STORE
 src/node_modules
 src/package-lock.json
-.vs_code
+src/https/server.key
+src/https/server.cert
+.vs_code/
 .env

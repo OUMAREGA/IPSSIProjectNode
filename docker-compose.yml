@@ -2,14 +2,12 @@ version: '3.3'
 services:
   node:
     container_name: insight_node
-    image: 'node:latest'
+    build: .
     working_dir: /home/node/app
     command:
-      - /bin/sh
-      - '-c'
-      - 'npm install && npm start'
-    env_file:
-      - .env #for JWT TOKEN
+        - "/bin/bash"
+        - "-c"
+        - "./entrypoint.sh" 
     ports:
       - '3000:3000'
     volumes:

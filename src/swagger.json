@@ -1,0 +1,1415 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "version": "1.0.0",
+        "title": "Insight API",
+        "description": "Documentation officielle sur l'utilisation de l'API Insight, dédiée à la notation d'intervenants par les étudiants"
+    },
+    "servers": [
+        {
+            "url": "https://localhost:3000"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Users",
+            "description": "Utilisateurs de l'API"
+        },
+        {
+            "name": "Session",
+            "description": "Sessions des modules"
+        }
+    ],
+    "schemes": [
+        "https"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/users": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "security": {
+                    "bearerAuth": [
+                        "admin"
+                    ]
+                },
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "description": "Informations du nouvel utilisateur à enregistrer",
+                        "schema": {
+                            "$ref": "#/components/schemas/User"
+                        }
+                    }
+                ],
+                "summary": "Crée un nouvel utilisateur",
+                "responses": {
+                    "201": {
+                        "description": "Utilisateur créé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BadRequest"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Forbidden"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                }
+            },
+            "get": {
+                "security": {
+                    "bearerAuth": []
+                },
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Retourne la liste de tous les utilisateurs",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Forbidden"
+                    }
+                }
+            }
+        },
+        "/users/{userId}": {
+            "get": {
+                "security": {
+                    "bearerAuth": [
+                        "admin"
+                    ]
+                },
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Retourne les informations d'un utilisateur en particulier",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "userId",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "Identifiant de l'utilisateur souhaité"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Forbidden"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                }
+            },
+            "put": {
+                "security": {
+                    "bearerAuth": [
+                        "admin"
+                    ]
+                },
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Met à jour les informations d'un utilisateur",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "userId",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "Identifiant de l'utilisateur souhaité"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "$ref": "#/components/schemas/User"
+                        },
+                        "required": true,
+                        "description": "Informations à mettre à jour"
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "$ref": "#/components/responses/BadRequest"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Forbidden"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                }
+            },
+            "delete": {
+                "security": {
+                    "bearerAuth": [
+                        "admin"
+                    ]
+                },
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Efface un utilisateur",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "userId",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "Identifiant de l'utilisateur souhaité"
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "$ref": "#/components/responses/DeletionSuccessful"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BadRequest"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Forbidden"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Authentifie un utilisateur",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "description": "Informations de connexion",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "email": {
+                                    "type": "string",
+                                    "format": "email"
+                                },
+                                "password": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "token": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Utilisateur introuvable",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Mot de passe invalide",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                }
+            }
+        },
+        "/token": {
+            "post": {
+                "summary": "Récupère les informations de l'utilisateur connecté",
+                "tags": [
+                    "Users"
+                ],
+                "security":{
+                    "bearerAuth":[]
+                },
+                "parameters":[
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "type": "string",
+                        "required": true,
+                        "description": "Token JWT de l'utilisateur"
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description": "OK",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "token": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sessions": {
+            "post": {
+                "security": {
+                    "bearerAuth": [
+                        "admin"
+                    ]
+                },
+                "tags": [
+                    "Session"
+                ],
+                "summary": "Crée une nouvelle session",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "description": "Informations de la nouvelle session",
+                        "schema": {
+                            "$ref": "#/components/schemas/Session"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Session créée",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Session"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BadRequest"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Forbidden"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                }
+            },
+            "get": {
+                "security": {
+                    "bearerAuth": [
+                        "admin"
+                    ]
+                },
+                "tags": [
+                    "Session"
+                ],
+                "summary": "Retourne toutes les sessions",
+
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": { "$ref": "#/components/schemas/Session" }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Forbidden"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                }
+            }
+        },
+        "/sessions/{sessionId}": {
+            "get": {
+                "security": {
+                    "bearerAuth": [
+                        "admin"
+                    ]
+                },
+                "tags":[
+                    "Session"
+                ],
+                "summary": "Récupère les informations d'une session",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "sessionId",
+                        "required": true,
+                        "description": "Identifiant de la session souhaitée",
+                        "type": "string"
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description": "OK",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                     "$ref": "#/components/schemas/Session"
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "$ref":"#/components/responses/BadRequest"
+                    },
+                    "401":{
+                        "$ref":"#/components/responses/Unauthenticated"
+                    },
+                    "403":{
+                        "$ref":"#/components/responses/Unauthenticated"
+                    },
+                    "500":{
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                }
+            },
+            "put": {
+                "tags":[
+                    "Session"
+                ],
+                "security": {
+                    "bearerAuth": [
+                        "admin"
+                    ]
+                },
+                "summary": "Met à jour les informations d'une session",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "sessionId",
+                        "required": true,
+                        "description": "Identifiant de la session souhaité",
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "$ref": "#/components/schemas/Session"
+                        },
+                        "required": true,
+                        "description": "Informations à mettre à jour"
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description": "OK",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                     "$ref": "#/components/schemas/Session"
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "$ref":"#/components/responses/BadRequest"
+                    },
+                    "401":{
+                        "$ref":"#/components/responses/Unauthenticated"
+                    },
+                    "403":{
+                        "$ref":"#/components/responses/Unauthenticated"
+                    },
+                    "500":{
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                }
+            },
+            "delete": {
+                "security": {
+                    "bearerAuth": [
+                        "admin"
+                    ]
+                },
+                "tags": [
+                    "Session"
+                ],
+                "summary": "Efface une session",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "userId",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "Identifiant de la session souhaitée"
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "$ref": "#/components/responses/DeletionSuccessful"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BadRequest"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Forbidden"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                }
+            }
+            
+        },
+        "/modules":{
+            "post":{
+                "security":{
+                    "bearerAuth": ["admin"]
+                },
+                "summary": "Crée un nouveau module",
+                "tags": [
+                    "Module"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "description": "Informations du nouveau module",
+                        "schema": {
+                            "$ref": "#/components/schemas/Module"
+                        }
+                    }
+                ],
+                "responses":{
+                    "201":{
+                        "description": "Le module a été créé",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref": "#/components/schemas/Module"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BadRequest"
+                    },
+                    "401":{
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Forbidden"
+                    },
+                    "500":{
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                }
+            },
+            "get":{
+                "security":{
+                    "bearerAuth": ["admin"]
+                },
+                "summary": "Récupère tous les modules",
+                "tags": [
+                    "Module"
+                ],
+                "responses":{
+                    "200":{
+                        "description": "OK",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type": "array",
+                                    "items":{
+                                        "$ref": "#/components/schemas/Module"
+                                    }
+                                }
+                            }
+                        }
+                    },
+
+                    "401":{
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Forbidden"
+                    },
+                    "500":{
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                }
+            }
+        },
+        "/modules/{moduleId}": {
+            "get": {
+                "security": {
+                    "bearerAuth": [
+                        "admin"
+                    ]
+                },
+                "tags":[
+                    "Module"
+                ],
+                "summary": "Récupère les informations d'un module",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "sessionId",
+                        "required": true,
+                        "description": "Identifiant du module souhaitée",
+                        "type": "string"
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description": "OK",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                     "$ref": "#/components/schemas/Module"
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "$ref":"#/components/responses/BadRequest"
+                    },
+                    "401":{
+                        "$ref":"#/components/responses/Unauthenticated"
+                    },
+                    "403":{
+                        "$ref":"#/components/responses/Unauthenticated"
+                    },
+                    "500":{
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                }
+            },
+            "put": {
+                "tags":[
+                    "Module"
+                ],
+                "security": {
+                    "bearerAuth": [
+                        "admin"
+                    ]
+                },
+                "summary": "Met à jour les informations d'un module",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "sessionId",
+                        "required": true,
+                        "description": "Identifiant du module souhaité",
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "$ref": "#/components/schemas/Module"
+                        },
+                        "required": true,
+                        "description": "Informations à mettre à jour"
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description": "OK",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                     "$ref": "#/components/schemas/Module"
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "$ref":"#/components/responses/BadRequest"
+                    },
+                    "401":{
+                        "$ref":"#/components/responses/Unauthenticated"
+                    },
+                    "403":{
+                        "$ref":"#/components/responses/Unauthenticated"
+                    },
+                    "500":{
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                }
+            },
+            "delete": {
+                "security": {
+                    "bearerAuth": [
+                        "admin"
+                    ]
+                },
+                "tags": [
+                    "Module"
+                ],
+                "summary": "Efface un module",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "moduleId",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "Identifiant du module souhaité"
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "$ref": "#/components/responses/DeletionSuccessful"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BadRequest"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Forbidden"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                }
+            }
+        },
+        "/session/{sessionId}/modules/{moduleId}":{
+            "get": {
+                "summary": "Récupère les informations d'un module concernant une session",
+                "security":{
+                    "bearerAuth": []
+                },
+                "tags":[
+                    "Session",
+                    "Module"
+                ],
+                "parameters":[
+                    {
+                        "in": "path",
+                        "name": "sessionId",
+                        "required": "true",
+                        "description": "Identifiant de la session correspondante",
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "moduleId",
+                        "required": "true",
+                        "description": "Identifiant du module souhaité",
+                        "type": "string"
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description": "OK",
+                        "content": {
+                            "application/json":{
+                                "schema": {
+                                    "$ref": "#/components/schemas/Module"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BadRequest"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Forbidden"
+                    },
+                    "500":{
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Met à jour les informations d'un module",
+                "security": {
+                    "bearerAuth": ["admin"]
+                },
+                "tags": [
+                    "Module",
+                    "Session"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "sessionId",
+                        "required": "true",
+                        "description": "Identifiant de la session correspondante",
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "moduleId",
+                        "required": "true",
+                        "description": "Identifiant du module souhaité",
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": "true",
+                        "description": "Informations à mettre à jour",
+                        "type": "object",
+                        "schema":{
+                            "$ref": "#/components/schemas/Module"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "OK",
+                        "content": {
+                            "application/json":{
+                                "schema": {
+                                    "$ref": "#/components/schemas/Module"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BadRequest"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Forbidden"
+                    },
+                    "500":{
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                }
+            },
+            "delete": {
+                "security": {
+                    "bearerAuth": [
+                        "admin"
+                    ]
+                },
+                "tags": [
+                    "Module"
+                ],
+                "summary": "Efface un module",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "sessionId",
+                        "required": "true",
+                        "description": "Identifiant de la session correspondante",
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "moduleId",
+                        "required": "true",
+                        "description": "Identifiant du module souhaité",
+                        "type": "string"
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "$ref": "#/components/responses/DeletionSuccessful"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BadRequest"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Forbidden"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                }
+            }
+        },
+        "/session/{sessionId}/modules": {
+            "post": {
+                "summary": "Crée un module pour une session correspondante",
+                "tags": [
+                    "Module",
+                    "Session"
+                ],
+                "security":{
+                    "bearerAuth": ["admin"]
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "sessionId",
+                        "required": true,
+                        "description": "Identifiant de la session correspondante"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "description": "Informations du nouveau module",
+                        "schema": {
+                            "$ref": "#/components/schemas/Module"
+                        }
+                    }
+                ],
+                "responses":{
+                    
+                }
+            },
+            "get":{
+                "summary": "Récupère les informations des modules d'une session",
+                "tags": [
+                    "Module",
+                    "Session"
+                ],
+                "security":{
+                    "bearerAuth": ["admin"]
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "type": "string",
+                        "required": true,
+                        "description": "Identifiant de la session correspondante"
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description": "OK",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type": "array",
+                                    "items":{
+                                        "$ref": "#/components/schemas/Module"
+                                    }
+                                }
+                            }
+                        }
+                    },
+
+                    "401":{
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Forbidden"
+                    },
+                    "500":{
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                }
+
+            }   
+        },
+        "/notes":{
+            "post":{
+                "security":{
+                    "bearerAuth": ["admin"]
+                },
+                "summary": "Crée une nouvelle note",
+                "tags": [
+                    "Note"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "description": "Informations de la nouvelle note",
+                        "schema": {
+                            "$ref": "#/components/schemas/Note"
+                        }
+                    }
+                ],
+                "responses":{
+                    "201":{
+                        "description": "La note a été créée",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref": "#/components/schemas/Note"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BadRequest"
+                    },
+                    "401":{
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Forbidden"
+                    },
+                    "500":{
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                }
+            },
+            "get":{
+                "security":{
+                    "bearerAuth": ["admin"]
+                },
+                "summary": "Récupère toutes les notes",
+                "tags": [
+                    "Note"
+                ],
+                "responses":{
+                    "200":{
+                        "description": "OK",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type": "array",
+                                    "items":{
+                                        "$ref": "#/components/schemas/Note"
+                                    }
+                                }
+                            }
+                        }
+                    },
+
+                    "401":{
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Forbidden"
+                    },
+                    "500":{
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                }
+            }
+            
+        },
+        "/{moduleId}/notes":{
+            "get":{
+                "security":{
+                    "bearerAuth": ["admin"]
+                },
+                "summary": "Récupère les notes d'un module",
+                "tags": [
+                    "Note",
+                    "Module"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "moduleId",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "Identifiant du module souhaité"
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description": "OK",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type": "array",
+                                    "items":{
+                                        "$ref": "#/components/schemas/Note"
+                                    }
+                                }
+                            }
+                        }
+                    },
+
+                    "401":{
+                        "$ref": "#/components/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Forbidden"
+                    },
+                    "500":{
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                }
+            }
+        }
+    },
+
+    "components": {
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "apiKey",
+                "name": "Authorization",
+                "scheme": "bearer",
+                "bearerFormat": "JWT",
+                "in": "header",
+                "scopes": {
+                    "admin": "Accès administrateur requis"
+                }
+            }
+        },
+        "security": {
+            "bearerAuth": [
+                "admin"
+            ]
+        },
+        "responses": {
+            "DeletionSuccessful":{
+                "description": "Suppression effectuée avec succès",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "BadRequest": {
+                "description": "L'utilisateur a mal renseigné les champs",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "errors": {
+                                    "type": "object"
+                                }
+                            },
+                            "description": "Affiche les champs mal renseignés"
+                        }
+                    }
+                }
+            },
+            "Unauthenticated": {
+                "description": "L'utilisateur n'est pas authentifié",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "Forbidden": {
+                "description": "L'utilisateur n'a pas les privilèges suffisants",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "NotFound": {
+                "description": "La ressource demandée n'a pas pu être trouvée",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "ServerError": {
+                "description": "Erreur au niveau du serveur",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "schemas": {
+            "User": {
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "firstname": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "roleId": {
+                        "type": "string",
+                        "enum": [
+                            "admin",
+                            "intervenant"
+                        ]
+                    }
+                },
+                "required": [
+                    "name",
+                    "firstname",
+                    "email",
+                    "password",
+                    "roleId"
+                ]
+            },
+            "Student": {
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "firstname": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "roleId": {
+                        "type": "string",
+                        "enum": [
+                            "étudiant"
+                        ]
+                    },
+                    "sessionId": {
+                        "type": "string",
+                        "description": "L'identifiant de la session"
+                    }
+                },
+                "required": [
+                    "name",
+                    "firstname",
+                    "email",
+                    "password",
+                    "roleId"
+                ]
+            },
+            "Session": {
+                "properties": {
+                    "nom_session": {
+                        "type": "string"
+                    },
+                    "promo": {
+                        "type": "string"
+                    },
+                    "debut": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "fin": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date"
+                    }
+                },
+                "required": [
+                    "nom_session",
+                    "promo",
+                    "debut",
+                    "fin"
+                ]
+            },
+            "Module": {
+                "properties": {
+                    "nameModule": {
+                        "type": "string"
+                    },
+                    "teacherId": {
+                        "type": "string",
+                        "description": "L'identifiant de l'utilisateur intervenant"
+                    },
+                    "sessionId": {
+                        "type": "string",
+                        "description": "L'identifiant de la session"
+                    },
+                    "begin": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "end": {
+                        "type": "string",
+                        "format": "date"
+                    }
+                },
+                "required": [
+                    "nameModule",
+                    "teacherId",
+                    "sessionId",
+                    "begin",
+                    "end"
+                ]
+            }
+        }
+    }
+}
